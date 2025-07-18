@@ -1,6 +1,10 @@
-package buildToTestLab;
+package testingDates;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.Scanner;
+
+import introToJUnitLab.Date;
 
 public class Date
 {
@@ -41,6 +45,16 @@ public class Date
         month = aDate.month;
         day = aDate.day;
         year = aDate.year;
+    }
+    
+    public Date addOneDay() {
+		
+		LocalDate date = LocalDate.of(this.year, this.getMonth(), this.day);
+		LocalDate nextDay = date.plusDays(1);
+		
+		Date tempDate = new Date(nextDay.getMonthValue(),nextDay.getDayOfMonth(),nextDay.getYear());
+		
+		return tempDate;
     }
 
     public void setDate(int monthInt, int day, int year)
@@ -194,18 +208,25 @@ public class Date
          }
     }
 
-    private boolean dateOK(int monthInt, int dayInt, int yearInt)
-    {
-        return ( (monthInt >= 1) && (monthInt <= 12) &&
-                 (dayInt >= 1) && (dayInt <= 31) &&
-                 (yearInt >= 1000) && (yearInt <= 9999) );
+    private boolean dateOK(int monthInt, int dayInt, int yearInt) {
+        try {
+            LocalDate.of(yearInt, monthInt, dayInt);
+            return true;
+        } catch (DateTimeException e) {
+            return false;
+        }
     }
 
-    private boolean dateOK(String monthString, int dayInt, int yearInt)
-    {
-        return ( monthOK(monthString) &&
-                 (dayInt >= 1) && (dayInt <= 31) &&
-                 (yearInt >= 1000) && (yearInt <= 9999) );
+    private boolean dateOK(String monthString, int dayInt, int yearInt) {
+        if (!monthOK(monthString)) return false;
+        if (dayInt < 1) return false;
+        if (yearInt < 1000 || yearInt > 9999) return false;
+        
+        int monthInt = getMonth(); 
+        
+        int[] daysInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        
+        return dayInt <= daysInMonth[monthInt - 1];
     }
 
     private boolean monthOK(String month)
