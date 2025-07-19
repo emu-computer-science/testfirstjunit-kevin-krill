@@ -46,6 +46,10 @@ public class Date
         year = aDate.year;
     }
     
+    public Date addOneDay(){
+    	   System.out.println("Date.addOneDay() is not yet implemented.");
+    	   return null;
+    	}
 
     public void setDate(int monthInt, int day, int year)
     {
