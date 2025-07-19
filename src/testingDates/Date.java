@@ -38,7 +38,7 @@ public class Date
         if (aDate == null)//Not a real date.
         {
              System.out.println("Fatal Error in Date(Date).");
-             System.exit(0);
+             //System.exit(0);
         }
 
         month = aDate.month;
@@ -46,10 +46,15 @@ public class Date
         year = aDate.year;
     }
     
-    public Date addOneDay(){
-    	   System.out.println("Date.addOneDay() is not yet implemented.");
-    	   return null;
-    	}
+    public Date addOneDay() {
+		
+		LocalDate date = LocalDate.of(this.year, this.getMonth(), this.day);
+		LocalDate nextDay = date.plusDays(1);
+		
+		Date tempDate = new Date(nextDay.getMonthValue(),nextDay.getDayOfMonth(),nextDay.getYear());
+		
+		return tempDate;
+    }
 
     public void setDate(int monthInt, int day, int year)
     {
@@ -62,7 +67,7 @@ public class Date
         else
         {
             System.out.println("Fatal Error in setDate(int, int, int)");
-            System.exit(0);
+            //System.exit(0);
         }
     }
 
@@ -77,7 +82,7 @@ public class Date
         else
         {
             System.out.println("Fatal Error in setDate(String,int, int)");
-            System.exit(0);
+            //System.exit(0);
         }
     }
 
@@ -91,7 +96,7 @@ public class Date
         if ( (year < 1000) || (year > 9999) )
         {
             System.out.println("Fatal Error in setYear(int)");
-            System.exit(0);
+            //System.exit(0);
         }
         else
             this.year = year;
@@ -101,7 +106,7 @@ public class Date
         if ((monthNumber <= 0) || (monthNumber > 12))
         {
             System.out.println("Fatal Error in setMonth(int)");
-            System.exit(0);
+            //System.exit(0);
         }
         else
             month = monthString(monthNumber);
@@ -112,7 +117,7 @@ public class Date
         if ((day <= 0) || (day > 31))
         {
             System.out.println("Fatal Error in setDay(int)");
-            System.exit(0);
+            //System.exit(0);
         }
         else
             this.day = day;
@@ -147,7 +152,7 @@ public class Date
         else
         {
             System.out.println("Fatal Error in getMonth");
-            System.exit(0);
+            //System.exit(0);
             return 0; //Needed to keep the compiler happy
         }
     }
@@ -202,18 +207,26 @@ public class Date
          }
     }
 
-    private boolean dateOK(int monthInt, int dayInt, int yearInt)
-    {
-	    return ( (monthInt >= 1) && (monthInt <= 12) &&
-	    (dayInt >= 1) && (dayInt <= 31) &&
-	    (yearInt >= 1000) && (yearInt <= 9999) );
+    private boolean dateOK(int monthInt, int dayInt, int yearInt) {
+        try {
+            LocalDate.of(yearInt, monthInt, dayInt);
+            return true;
+        } catch (DateTimeException e) {
+            return false;
+        }
     }
 
-    private boolean dateOK(String monthString, int dayInt, int yearInt)
-    {
-	    return ( monthOK(monthString) &&
-	    (dayInt >= 1) && (dayInt <= 31) &&
-	    (yearInt >= 1000) && (yearInt <= 9999) );
+    private boolean dateOK(String monthString, int dayInt, int yearInt) {
+        if (!monthOK(monthString)) return false;
+        if (dayInt < 1) return false;
+        if (yearInt < 1000 || yearInt > 9999) return false;
+        
+        int monthInt = getMonth();
+        
+        int[] daysInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        
+        
+        return dayInt <= daysInMonth[monthInt - 1];
     }
 
     private boolean monthOK(String month)
@@ -256,7 +269,7 @@ public class Date
             return "December";
         default:
             System.out.println("Fatal Error in monthString");
-            System.exit(0);
+            //System.exit(0);
             return "Error"; //to keep the compiler happy
         }
     }

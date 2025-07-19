@@ -7,11 +7,10 @@ public class DateSetDateTest {
 
 	@Test
 	public void testingIllegalDay(){
-		Date date = new Date();
-		Date expected = new Date(7, 40, 2020);
+		Date date = new Date(7,1,2020);
 		
 		date.setDate(7, 40, 2020);
-		assertEquals(expected,date);
+		assertEquals(1,date.getDay());
 	}
 	
 	@Test

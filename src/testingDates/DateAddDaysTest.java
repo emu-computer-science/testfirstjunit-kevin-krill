@@ -12,12 +12,12 @@ public class DateAddDaysTest {
 		Date date = new Date("January", 1, 1999);
 		Date expected = new Date("January", 2, 1999);
 		
-		assertEquals(expected, date.addOneDay());
+		assertTrue(expected.equals(date.addOneDay()));
 		
 		Date date2 = new Date(3, 1, 2020);
-		Date expected2 = new Date(3, 2, 202);
+		Date expected2 = new Date(3, 2, 2020);
 		
-		assertEquals(expected2, date2.addOneDay());
+		assertTrue(expected2.equals(date2.addOneDay()));
 	}
 	
 	@Test
@@ -25,7 +25,7 @@ public class DateAddDaysTest {
 		Date date = new Date("July",31,2000);
 		Date expected = new Date("August",1,2000);
 		
-		assertEquals(expected, date.addOneDay());
+		assertTrue(expected.equals(date.addOneDay()));
 	}
 	
 	@Test
@@ -33,6 +33,6 @@ public class DateAddDaysTest {
 			Date date = new Date("December",31,1999);
 			Date expected = new Date("January",1,2000);
 			
-			assertEquals(expected,date.addOneDay());
+			assertTrue(expected.equals(date.addOneDay()));
 	}
 }
